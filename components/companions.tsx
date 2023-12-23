@@ -29,7 +29,7 @@ export const Companions = ({
                 />
                 </div>
                 <p className="text-sm text-muted-foreground">
-                    No ChatterBot's found
+                    No ChatterBot found
                 </p>
             </div>
         )
