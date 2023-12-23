@@ -86,7 +86,7 @@ export const CompanionForm = ({
             }
 
             toast({
-                description:"Sucess."
+                description:"Success."
             });
 
             router.refresh();
