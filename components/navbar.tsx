@@ -29,7 +29,7 @@ export const Navbar = () => {
       </div>
       <div className="flex items-center gap-x-3">
         <ModeToggle/>
-            <UserButton afterSignOutUrl="/"/>
+            <UserButton afterSignOutUrl="/sign-in"/>
       </div>
     </div>
   );
