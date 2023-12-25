@@ -80,7 +80,7 @@ export class MemoryManager {
 
   public async readLatestHistory(companionKey: CompanionKey): Promise<string> {
     if (!companionKey || typeof companionKey.userId == "undefined") {
-      console.log("Companion key set incorrectly");
+      console.log("Companion key is set incorrectly");
       return "";
     }
 
@@ -102,7 +102,7 @@ export class MemoryManager {
     const key = this.generateRedisCompanionKey(companionKey);
     if (await this.history.exists(key)) {
       console.log("User already has chat history");
-      return;
+      return; 
     }
 
     const content = seedContent.split(delimiter);
