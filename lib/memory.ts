@@ -1,6 +1,6 @@
 import { Redis } from "@upstash/redis";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { PineconeClient } from "@pinecone-database/pinecone";
+import { PineconeClient,Pinecone } from "@pinecone-database/pinecone";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 
 export type CompanionKey = {
@@ -33,14 +33,15 @@ export class MemoryManager {
     companionFileName: string
   ) {
     const pineconeClient = <PineconeClient>this.vectorDBClient;
-
-    const pineconeIndex = pineconeClient.Index(
+    const pinecone = new Pinecone();
+    const pineconeIndex = pinecone.Index(
       process.env.PINECONE_INDEX! || ""
     );
+    
 
     const vectorStore = await PineconeStore.fromExistingIndex(
       new OpenAIEmbeddings({ openAIApiKey: process.env.OPENAI_API_KEY }),
-      { pineconeIndex }
+      { pineconeIndex }, 
     ); 
 
     const similarDocs = await vectorStore
@@ -80,7 +81,7 @@ export class MemoryManager {
 
   public async readLatestHistory(companionKey: CompanionKey): Promise<string> {
     if (!companionKey || typeof companionKey.userId == "undefined") {
-      console.log("Companion key is set incorrectly");
+      console.log("Companion key set incorrectly");
       return "";
     }
 
@@ -102,7 +103,7 @@ export class MemoryManager {
     const key = this.generateRedisCompanionKey(companionKey);
     if (await this.history.exists(key)) {
       console.log("User already has chat history");
-      return; 
+      return;
     }
 
     const content = seedContent.split(delimiter);
